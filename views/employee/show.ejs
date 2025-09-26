@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="/employees" class="btn btn-secondary">← Back to List</a>
+        </div>
+
+        <div class="detail-card">
+            <h1>Employee Details</h1>
+            
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <label>Name:</label>
+                    <span><%= employee.name %></span>
+                </div>
+                
+                <div class="detail-item">
+                    <label>Address:</label>
+                    <span><%= employee.address %></span>
+                </div>
+                
+                <div class="detail-item">
+                    <label>Position:</label>
+                    <span><%= employee.position %></span>
+                </div>
+                
+                <div class="detail-item">
+                    <label>Salary:</label>
+                    <span>₱<%= employee.salary.toLocaleString() %>/year</span>
+                </div>
+                
+                <div class="detail-item">
+                    <label>Created:</label>
+                    <span><%= new Date(employee.createdAt).toLocaleDateString() %></span>
+                </div>
+                
+                <div class="detail-item">
+                    <label>Last Updated:</label>
+                    <span><%= new Date(employee.updatedAt).toLocaleDateString() %></span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a href="/employees/edit/<%= employee._id %>" class="btn btn-primary">Edit Employee</a>
+                <form action="/employees/delete/<%= employee._id %>" method="post" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this employee?')">
+                    <button type="submit" class="btn btn-danger">Delete Employee</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Employee - Oxales Corp.</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <!-- Corporate Header -->
+    <header class="corporate-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">OX</div>
+                <div class="company-info">
+                    <h1>Oxales Corp.</h1>
+                    <div class="company-tagline">Excellence in Business Solutions</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/employees" class="btn btn-secondary">← Employee Directory</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Navigation -->
+        <div class="navigation">
+            <a href="/employees" class="btn btn-secondary">← Back to Employee Directory</a>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Add New Employee</h1>
+                <p class="page-subtitle">Complete the form below to add a new team member to the system</p>
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        <% if (errors && errors.length > 0) { %>
+            <div class="error-messages">
+                <strong>Please correct the following errors:</strong>
+                <% errors.forEach(function(error) { %>
+                    <div class="error"><%= error %></div>
+                <% }); %>
+            </div>
+        <% } %>
+
+        <!-- Employee Form -->
+        <div class="form-card">
+            <div class="card-header">
+                <h2>Employee Information</h2>
+                <p>Please provide complete and accurate information for the new employee</p>
+            </div>
+
+            <form action="/employees/save" method="post" class="employee-form">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        value="<%= employee.name || '' %>"
+                        placeholder="Enter employee's full name"
+                        required
+                        maxlength="100"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Position *</label>
+                    <input 
+                        type="text" 
+                        id="position" 
+                        name="position" 
+                        value="<%= employee.position || '' %>"
+                        placeholder="e.g., Software Engineer, Marketing Manager, Sales Representative"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address *</label>
+                    <textarea 
+                        id="address" 
+                        name="address" 
+                        rows="3"
+                        placeholder="Complete address including street, city, state, and ZIP code"
+                        required
+                    ><%= employee.address || '' %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="salary">Annual Salary (USD) *</label>
+                    <input 
+                        type="number" 
+                        id="salary" 
+                        name="salary" 
+                        value="<%= employee.salary || '' %>"
+                        placeholder="e.g., 75000"
+                        min="0"
+                        step="1000"
+                        required
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Add Employee to System
+                    </button>
+                    <a href="/employees" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Information Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Important Information</h3>
+            </div>
+            <div class="card-body">
+                <ul style="color: #666; line-height: 1.8;">
+                    <li>All fields marked with (*) are required</li>
+                    <li>Employee information can be updated after creation</li>
+                    <li>Salary information is kept confidential within the system</li>
+                    <li>New employees will be assigned to the Operations department by default</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add form validation
+            const form = document.querySelector('.employee-form');
+            const nameInput = document.getElementById('name');
+            const salaryInput = document.getElementById('salary');
+            
+            // Format salary input
+            salaryInput.addEventListener('input', function() {
+                let value = this.value.replace(/,/g, '');
+                if (value && !isNaN(value)) {
+                    this.value = parseInt(value).toLocaleString();
+                }
+            });
+
+            // Remove commas before form submission
+            form.addEventListener('submit', function() {
+                salaryInput.value = salaryInput.value.replace(/,/g, '');
+            });
+        });
+    </script>
+</body>
+</html>

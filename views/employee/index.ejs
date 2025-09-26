@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management - Oxales Corp.</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <!-- Corporate Header -->
+    <header class="corporate-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">OX</div>
+                <div class="company-info">
+                    <h1>Oxales Corp.</h1>
+                    <div class="company-tagline">Basta Maangas na 'to</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/employees/create" class="btn btn-primary">+ Add Employee</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Employee Management System</h1>
+                <p class="page-subtitle">Manage and organize your workforce efficiently</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number"><%= employees.length %></div>
+                    <div class="stat-label">Total Employees</div>
+                </div>
+            </div>
+        </div>
+
+        <% if(employees.length > 0) { %>
+            <!-- Employee Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Employee Directory</h2>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Position</th>
+                                <th>Department</th>
+                                <th>Annual Salary</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% employees.forEach(function(employee) { %>
+                                <tr>
+                                    <td>
+                                        <a href="/employees/show/<%= employee._id %>" class="link">
+                                            <strong><%= employee.name %></strong>
+                                        </a>
+                                    </td>
+                                    <td><%= employee.position %></td>
+                                    <td>
+                                        <span class="status-badge status-active">Operations</span>
+                                    </td>
+                                    <td>
+                                        <strong>₱<%= employee.salary.toLocaleString() %></strong>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-active">Active</span>
+                                    </td>
+                                    <td class="actions">
+                                        <a href="/employees/show/<%= employee._id %>" class="btn btn-secondary btn-small">View</a>
+                                        <a href="/employees/edit/<%= employee._id %>" class="btn btn-secondary btn-small">Edit</a>
+                                        <form action="/employees/delete/<%= employee._id %>" method="post" class="delete-form" onsubmit="return confirm('Are you sure you want to remove this employee from the system?')">
+                                            <button type="submit" class="btn btn-danger btn-small">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <% } else { %>
+            <!-- Empty State -->
+            <div class="empty-state">
+                <h2>No Employees Found</h2>
+                <p>Your employee database is currently empty. Start building your team by adding your first employee to the system.</p>
+                <a href="/employees/create" class="btn btn-primary">Add First Employee</a>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        // Add some interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to table rows
+            const tableRows = document.querySelectorAll('.data-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.005)';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
