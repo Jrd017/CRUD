@@ -6,7 +6,6 @@ var logger = require('morgan');
 const bodyParser = require('body-parser');
 
 // Import routes
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var employeesRouter = require('./routes/employees');
 
