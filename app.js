@@ -29,7 +29,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', indexRouter);
+app.get('/', (req, res) => {
+  res.redirect('/employees');
+});
 app.use('/users', usersRouter);
 app.use('/employees', employeesRouter);
 
